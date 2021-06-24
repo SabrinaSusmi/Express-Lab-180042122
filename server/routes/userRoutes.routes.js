@@ -4,13 +4,16 @@ const bodyParser = require("body-parser");
 const {
     getRegister,
     postRegister,
-    getLogin
+    getLogin,
+    postLogin
   } = require('../controllers/userController');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
 router.get("/login", getLogin);
+
+router.post("/login", postLogin);
 
 router.get("/register", getRegister);
 

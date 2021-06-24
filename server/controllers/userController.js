@@ -51,4 +51,20 @@ const getLogin = (req,res)=> {
     res.sendFile("login.html", { root: "./views/users" });
 };
 
-module.exports = { getRegister, postRegister, getLogin };
+const postLogin = async (req, res) => {
+    const { email, password } = req.body;
+    
+    const user = await registerForm.findOne({email});
+    if(!user) {
+        return res.json({msg: "User with the email doesn't exist."});
+    }
+
+    const checkPass = await bcrypt.compare(password, user.password)
+    if(!checkPass) {
+        return res.json({msg: "Password incorrect!"});
+    }
+
+    res.json({msg:"Logged in"});
+};
+
+module.exports = { getRegister, postRegister, getLogin, postLogin };
