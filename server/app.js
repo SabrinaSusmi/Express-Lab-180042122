@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const userRoutes = require("./routes/userRoutes.routes");
 
-app.use("/users/",userRoutes);
+app.use(userRoutes);
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
