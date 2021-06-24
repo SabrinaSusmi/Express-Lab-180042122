@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const signupForm = new mongoose.Schema({
+const registerForm = new mongoose.Schema({
     username : {
         type : String,
         required : true
@@ -23,4 +23,4 @@ const signupForm = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('users', signupForm);
+module.exports = mongoose.model('users', registerForm);
