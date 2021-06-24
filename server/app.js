@@ -1,5 +1,8 @@
 const express = require("express");
 const app = express();
+const userRoutes = require("./routes/userRoutes.routes");
+
+app.use(userRoutes);
 
 app.get("/", (req, res) => {
     res.status(200).send("<H1>Home Page - GET Request</H1>");
