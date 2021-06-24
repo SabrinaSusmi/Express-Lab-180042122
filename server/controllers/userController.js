@@ -16,6 +16,11 @@ const postRegister = async (req,res)=>{
         res.json({msg: "Fill in the empty fields!"});
         return res.redirect("/register");
     }
+    const user = await registerForm.findOne({username})
+    if(user) {
+        return res.json({msg: "user with same username already exists."})
+    }
+    
     if(password.length < 6){
         return res.json({msg: "Password must be atleast 6 characters!"});
     }
