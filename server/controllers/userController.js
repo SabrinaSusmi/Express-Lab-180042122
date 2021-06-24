@@ -16,9 +16,9 @@ const postRegister = async (req,res)=>{
         res.json({msg: "Fill in the empty fields!"});
         return res.redirect("/register");
     }
-    const user = await registerForm.findOne({username})
+    const user = await registerForm.findOne({email})
     if(user) {
-        return res.json({msg: "user with same username already exists."})
+        return res.json({msg: "User with same email already exists."})
     }
     
     if(password.length < 6){
@@ -46,5 +46,7 @@ const postRegister = async (req,res)=>{
         res.json(error)
     })
 };
+
+
 
 module.exports = { getRegister, postRegister };
