@@ -1,0 +1,22 @@
+body {
+    background-color: rgb(202, 242, 243);
+}
+h1 {
+    text-align: center;
+    color: rgb(8, 56, 128);
+    margin-bottom: 2em;
+}
+
+div {
+    margin: 1em auto;
+    padding: 5px;
+    width : 100px;
+    background-color: rgb(8, 56, 128);
+    border-radius: 5px;
+    text-align: center;
+}
+
+a {
+    color: rgb(202, 242, 243);
+    text-decoration: none;
+}
