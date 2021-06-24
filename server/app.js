@@ -17,7 +17,7 @@ app.get("/register", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-    res.send("<H1>Login</H1>");
+    res.json({ name: "Susmi", profession: "Student" });
 });
 
 app.get("/dashboard", (req, res) => {
