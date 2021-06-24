@@ -1,11 +1,12 @@
 const registerForm = require('../models/userModel.models');
 const alert = require('alert');
+const bcrypt = require('bcrypt');
 
 const getRegister = (req,res)=> {
     res.sendFile("register.html", { root: "./views/users" });
 };
 
-const postRegister = (req,res)=>{
+const postRegister = async (req,res)=>{
 
     const {username, email, gender, password, repassword } = req.body
 
@@ -19,6 +20,8 @@ const postRegister = (req,res)=>{
         return res.json({msg: "Password must be atleast 6 characters!"});
     }
 
+    const passwordEncrypted = await bcrypt.hash(password, 10)
+
     if(repassword!=password) {
         return res.json({msg: "Passwords dont match!"});
     }
@@ -28,7 +31,7 @@ const postRegister = (req,res)=>{
         username:username,
         email:email,
         gender:gender,
-        password:password
+        password:passwordEncrypted
     })
     registerUser.save()
     .then(data => {
