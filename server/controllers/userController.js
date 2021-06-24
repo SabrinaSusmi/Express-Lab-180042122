@@ -6,11 +6,19 @@ const getRegister = (req,res)=> {
 
 const postRegister = (req,res)=>{
 
+    const {username, email, gender, password} = req.body
+
+    if(!username || !email || !gender || !password) {
+        return res.json({msg: "Fill in the empty fields!"});
+    }
+    if(password.length < 6){
+        return res.json({msg: "Password must be atleast 6 characters!"});
+    }
     const registerUser = new registerForm ({
-        username:req.body.username,
-        email:req.body.email,
-        gender:req.body.gender,
-        password:req.body.password
+        username:username,
+        email:email,
+        gender:gender,
+        password:password
     })
     registerUser.save()
     .then(data => {
