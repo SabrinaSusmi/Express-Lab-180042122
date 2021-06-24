@@ -5,11 +5,14 @@ const {
     getRegister,
     postRegister,
     getLogin,
-    postLogin
+    postLogin,
+    getDashboard
   } = require('../controllers/userController');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
+
+router.get("/dashboard", getDashboard);
 
 router.get("/login", getLogin);
 

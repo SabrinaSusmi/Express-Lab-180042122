@@ -64,7 +64,12 @@ const postLogin = async (req, res) => {
         return res.json({msg: "Password incorrect!"});
     }
 
-    res.json({msg:"Logged in"});
+    //res.json({msg:"Logged in"});
+    res.redirect('/dashboard');
 };
 
-module.exports = { getRegister, postRegister, getLogin, postLogin };
+const getDashboard = (req,res)=> {
+    res.sendFile("dashboard.html", { root: "./views" });
+};
+
+module.exports = { getRegister, postRegister, getLogin, postLogin, getDashboard };
