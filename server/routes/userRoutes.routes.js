@@ -6,7 +6,7 @@ router.get("/login", (req,res)=>{
 });
 
 router.get("/register", (req,res)=>{
-    res.send("Register page")
+    res.sendFile("register.html", { root: "./views/users" });
 });
 
 module.exports=router;
