@@ -47,6 +47,8 @@ const postRegister = async (req,res)=>{
     })
 };
 
+const getLogin = (req,res)=> {
+    res.sendFile("login.html", { root: "./views/users" });
+};
 
-
-module.exports = { getRegister, postRegister };
+module.exports = { getRegister, postRegister, getLogin };
