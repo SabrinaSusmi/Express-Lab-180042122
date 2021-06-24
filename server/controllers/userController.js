@@ -1,6 +1,8 @@
 const registerForm = require('../models/userModel.models');
 const alert = require('alert');
 const bcrypt = require('bcrypt');
+var LocalStorage = require("node-localstorage").LocalStorage;
+localStorage = new LocalStorage("./scratch");
 
 const getRegister = (req,res)=> {
     res.sendFile("register.html", { root: "./views/users" });
@@ -63,13 +65,17 @@ const postLogin = async (req, res) => {
     if(!checkPass) {
         return res.json({msg: "Password incorrect!"});
     }
+    else {
+        localStorage.setItem("username", user.username);
+    }
 
     //res.json({msg:"Logged in"});
     res.redirect('/dashboard');
 };
 
 const getDashboard = (req,res)=> {
-    res.sendFile("dashboard.html", { root: "./views" });
+    const name = localStorage.getItem('username');
+    res.send(`<H1>Welcome, ${name}.</H1>`);
 };
 
 module.exports = { getRegister, postRegister, getLogin, postLogin, getDashboard };
