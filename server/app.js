@@ -10,6 +10,9 @@ app.post("/", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
+    //res.cookie("username", "susmi");
+    //res.clearCookie("username");
+    res.append("username", "susmi"); // info passing in the header
     res.send("<H1>Register</H1>");
 });
 
