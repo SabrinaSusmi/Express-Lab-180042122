@@ -1,5 +1,7 @@
 const registerForm = require('../models/userModel.models');
-const alert = require('alert');
+//import {alert} from 'node-popup';
+//const alert = require('node-popup');
+//const notifier = require('node-notifier');
 const bcrypt = require('bcrypt');
 var LocalStorage = require("node-localstorage").LocalStorage;
 localStorage = new LocalStorage("./scratch");
@@ -13,7 +15,7 @@ const postRegister = async (req,res)=>{
     const {username, email, gender, password, repassword } = req.body
 
     if(!username || !email || !gender || !password || !repassword) {
-        //alert("Fill in the empty fields!");
+        //notifier.notify("Fill in the empty fields!");
         //window.alert("Fill in the empty fields!");
         res.json({msg: "Fill in the empty fields!"});
         return res.redirect("/register");
