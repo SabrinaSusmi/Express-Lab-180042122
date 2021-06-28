@@ -76,8 +76,9 @@ const postLogin = async (req, res) => {
 };
 
 const getDashboard = (req,res)=> {
-    const name = localStorage.getItem('username');
-    res.send(`<H1>Welcome, ${name}.</H1>`);
+    // const name = localStorage.getItem('username');
+    // res.send(`<H1>Welcome, ${name}.</H1>`);
+    console.log("Login Successful!");
 };
 
 module.exports = { getRegister, postRegister, getLogin, postLogin, getDashboard };

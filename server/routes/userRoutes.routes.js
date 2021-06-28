@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
+const isLoggedIn = require("../middlewares/auth.middlewares");
 const {
     getRegister,
     postRegister,
@@ -12,7 +13,7 @@ const {
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
-router.get("/dashboard", getDashboard);
+router.route("/dashboard").all(isLoggedIn).get(getDashboard);
 
 router.get("/login", getLogin);
 
