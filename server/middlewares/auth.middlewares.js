@@ -10,8 +10,8 @@ const isLoggedIn = (req,res,next) => {
         localStorage.setItem("username",null);
         next();
     }else {
-        return res.json({msg: "Password incorrect!"});
-        res.redirect('/login');
+        //return res.json({msg: "Password incorrect!"});
+        res.redirect('/users/login');
     }
 }
 

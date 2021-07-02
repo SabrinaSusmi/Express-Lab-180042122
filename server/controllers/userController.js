@@ -29,11 +29,11 @@ const postRegister = async (req,res)=>{
         return res.json({msg: "Password must be atleast 6 characters!"});
     }
 
-    const passwordEncrypted = await bcrypt.hash(password, 10)
-
     if(repassword!=password) {
         return res.json({msg: "Passwords dont match!"});
     }
+
+    const passwordEncrypted = await bcrypt.hash(password, 10)
 
 
     const registerUser = new registerForm ({
