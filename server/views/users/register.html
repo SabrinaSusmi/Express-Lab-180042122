@@ -24,7 +24,7 @@
     <div class="card-body register-card-body">
       <p class="login-box-msg">Register today!</p>
 
-      <form action="/register" method="post">
+      <form action="/users/register" method="post">
         <div class="input-group mb-3">
           <input type="text" name="username" class="form-control" placeholder="Username">
           <div class="input-group-append">
@@ -66,14 +66,6 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-              <label for="agreeTerms">
-               I agree to the <a href="#">terms</a>
-              </label>
-            </div>
-          </div>
           <!-- /.col -->
           <div class="col-4">
             <button type="submit" class="btn btn-primary btn-block">Register</button>
@@ -82,7 +74,7 @@
         </div>
       </form>
 
-      <a href="/login" class="text-center">Already have an account.</a>
+      <a href="/users/login" class="text-center">Already have an account.</a>
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->

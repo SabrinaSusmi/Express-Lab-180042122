@@ -72,7 +72,7 @@ const postLogin = async (req, res) => {
     }
 
     //res.json({msg:"Logged in"});
-    res.redirect('/dashboard');
+    res.redirect('/users/dashboard');
 };
 
 const getDashboard = (req,res)=> {
