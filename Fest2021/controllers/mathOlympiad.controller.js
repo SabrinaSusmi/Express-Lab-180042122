@@ -2,7 +2,7 @@
 const MathOlympiad = require("../models/MathOlympiad.model");
 
 const getMO = (req, res)=> {
-    res.render("math-olympiad/register.ejs");
+    res.render("math-olympiad/register.ejs", { error: req.flash("error") });
 }
 
 const postMO = (req, res) => {
@@ -43,12 +43,12 @@ const postMO = (req, res) => {
           .save()
           .then(() => {
             error = "Participant has been registered successfully!!";
-            console.log(error);
+            req.flash("error", error);
             res.redirect("/MathOlympiad/register");
           })
           .catch(() => {
-            error = "Unexpected error occured while registering!";
-            console.log(error);
+            error = "Unexpected error occured while";
+            req.flash("error", error);
             res.redirect("/MathOlympiad/register");
           });
       }
