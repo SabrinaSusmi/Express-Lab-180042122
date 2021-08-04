@@ -7,7 +7,7 @@ const getMO = (req, res)=> {
 
 const postMO = (req, res) => {
     const { name, category, contact, email, institution, tshirt } = req.body;
-    console.log(institution);
+    // console.log(name);
     let registrationFee = 0;
     if (category == "School") {
       registrationFee = 250;
@@ -56,9 +56,26 @@ const postMO = (req, res) => {
     //   res.render('math-olympiad/register.ejs')
   };
 
-const getMOList = (req, res)=> {
-    res.render("math-olympiad/list.ejs");
-}
+  const getMOList = (req, res) => {
+    let all_participant = [];
+    let error = "";
+    MathOlympiad.find()
+      .then((data) => {
+        all_participant = data;
+        res.render("math-olympiad/list.ejs", {
+          error: req.flash("error"),
+          participants: all_participant,
+        });
+      })
+      .catch(() => {
+        error = "Failed to fetch data!";
+        res.render("math-olympiad/list.ejs", {
+          error: req.flash("error", error),
+          participants: all_participant,
+        });
+      });
+    // res.render("math-olympiad/list.ejs");
+  };
 
 const deleteMO = (req, res)=> {
     const id = req.params.id;
