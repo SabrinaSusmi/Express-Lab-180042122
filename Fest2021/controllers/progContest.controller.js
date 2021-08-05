@@ -101,4 +101,22 @@ const getPCList = (req, res) => {
       });
 };
 
-module.exports = { getPC, postPC, getPCList };
+const deletePC = (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+  
+    let error = "";
+    progContest.deleteOne({ _id: req.params.id })
+      .then(() => {
+        error = "Team deleted successfully!";
+        req.flash("error", error);
+        res.redirect("/ProgContest/list");
+      })
+      .catch(() => {
+        error = "Failed to delete data!";
+        req.flash("error", error);
+        res.redirect("/ProgContest/list");
+      });
+  };
+
+module.exports = { getPC, postPC, getPCList, deletePC };
