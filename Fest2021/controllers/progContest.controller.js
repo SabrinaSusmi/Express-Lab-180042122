@@ -119,4 +119,84 @@ const deletePC = (req, res) => {
       });
   };
 
-module.exports = { getPC, postPC, getPCList, deletePC };
+
+  const getInfoPC = (req, res) => {
+    const id = req.params.id;
+    
+    let info = [];
+    let error = "";
+    progContest.findOne({ _id: id })
+      .then((data) => {
+        info = data;
+        res.render("prog-contest/edit-team.ejs", {
+          error: req.flash("error"),
+          team: info,
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+        error = "Failed to fetch team details";
+        res.render("prog-contest/edit-team.ejs", {
+          error: req.flash("error", error),
+          team: info,
+        });
+      });
+  };
+  
+  const editPC = async (req, res) => {
+    const id = req.params.id;
+    const { teamname,
+        institute,
+        coachname,
+        coachcontact,
+        coachmail,
+        coachshirt,
+        leadername,
+        leadercontact,
+        leadermail,
+        leadershirt,
+        mem1name,
+        mem1contact,
+        mem1mail,
+        mem1shirt,
+        mem2name,
+        mem2contact,
+        mem2mail,
+        mem2shirt } = req.body;
+    console.log(req.body);
+
+    let error = "";
+
+    progContest.findOneAndUpdate(
+      { _id: id }, 
+      { teamname,
+        institute,
+        coachname,
+        coachcontact,
+        coachmail,
+        coachshirt,
+        leadername,
+        leadercontact,
+        leadermail,
+        leadershirt,
+        mem1name,
+        mem1contact,
+        mem1mail,
+        mem1shirt,
+        mem2name,
+        mem2contact,
+        mem2mail,
+        mem2shirt })
+      .then((data) => {
+        error = "Team updated successfully!";
+            req.flash("error", error);
+            res.redirect("/ProgContest/list");
+      })
+      .catch((e) => {
+        console.log(e);
+        error = "Failed to update team details";
+        res.redirect("/ProgContest/list");
+      });
+  };
+
+module.exports = { getPC, postPC, getPCList, deletePC, getInfoPC, editPC };
