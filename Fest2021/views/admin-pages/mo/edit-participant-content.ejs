@@ -19,13 +19,16 @@
           <div class="x_content">
             <br />
 
-            <% if (error.length>0) {%>
-              <div class="alert alert-danger"><%=error%></div>
-            <%}%> %>
+            <% let success= 'Participant updated successfully!'%>
+            <% if (error.length>0) {if (error==success){%>
+              <div class="alert alert-success"><%=error%></div>
+              <%}else{%>
+              <div class="alert alert-danger"><%=error%></div> 
+              <%}%> <%}%>
             
             <form
               method="POST"
-              action="/MathOlympiad/editParticipant"
+              action="/MathOlympiad/editParticipant/<%=participant._id%>"
               id="demo-form2"
               data-parsley-validate
               class="form-horizontal form-label-left"

@@ -174,17 +174,25 @@ const paymentDoneMO = (req, res) => {
   };
   
   const editMO = async (req, res) => {
-    // const { name, contact, category, email, institution, tshirt } = req.body;
+    const id = req.params.id;
+    const { name, contact, category, email, institution, tshirt } = req.body;
     console.log(req.body);
-  
-    const data = await MathOlympiad.findOneAndUpdate(
-      { name: name, contact: contact },
-      { category, email, institution, tshirt }
-    );
-    if (data) {
-      console.log("findOneAndUpdate ", data);
-      res.redirect("/MathOlympiad/list");
-    }
+
+    let error = "";
+
+    MathOlympiad.findOneAndUpdate(
+      { _id: id }, 
+      { name, contact, category, email, institution, tshirt })
+      .then((data) => {
+        error = "Participant updated successfully!";
+            req.flash("error", error);
+            res.redirect("/MathOlympiad/list");
+      })
+      .catch((e) => {
+        console.log(e);
+        error = "Failed to update participant details";
+        res.redirect("/MathOlympiad/list");
+      });
   };
   
 
