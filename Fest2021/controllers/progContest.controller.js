@@ -167,36 +167,47 @@ const deletePC = (req, res) => {
 
     let error = "";
 
-    progContest.findOneAndUpdate(
-      { _id: id }, 
-      { teamname,
-        institute,
-        coachname,
-        coachcontact,
-        coachmail,
-        coachshirt,
-        leadername,
-        leadercontact,
-        leadermail,
-        leadershirt,
-        mem1name,
-        mem1contact,
-        mem1mail,
-        mem1shirt,
-        mem2name,
-        mem2contact,
-        mem2mail,
-        mem2shirt })
-      .then((data) => {
-        error = "Team updated successfully!";
+    progContest.findOne({ teamname: teamname, institute: institute }).then(
+        (team) => {
+          if (team) {
+            error = "Team with this name and institution exists!";
             req.flash("error", error);
-            res.redirect("/ProgContest/list");
-      })
-      .catch((e) => {
-        console.log(e);
-        error = "Failed to update team details";
-        res.redirect("/ProgContest/list");
-      });
+            res.redirect("/ProgContest/editTeam/"+id);
+          } else {
+            progContest.findOneAndUpdate(
+                { _id: id }, 
+                { teamname,
+                  institute,
+                  coachname,
+                  coachcontact,
+                  coachmail,
+                  coachshirt,
+                  leadername,
+                  leadercontact,
+                  leadermail,
+                  leadershirt,
+                  mem1name,
+                  mem1contact,
+                  mem1mail,
+                  mem1shirt,
+                  mem2name,
+                  mem2contact,
+                  mem2mail,
+                  mem2shirt })
+                .then((data) => {
+                  error = "Team updated successfully!";
+                      req.flash("error", error);
+                      res.redirect("/ProgContest/list");
+                })
+                .catch((e) => {
+                  console.log(e);
+                  error = "Failed to update team details";
+                  res.redirect("/ProgContest/list");
+                });
+          }
+        })
+
+    
   };
 
   const selectPC = (req, res) => {
