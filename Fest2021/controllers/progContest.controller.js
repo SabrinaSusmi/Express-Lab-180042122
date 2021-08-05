@@ -81,4 +81,24 @@ const postPC = (req, res) => {
 };
 
 
-module.exports = { getPC, postPC };
+const getPCList = (req, res) => {
+    let all_teams = [];
+    let error = "";
+    progContest.find()
+      .then((data) => {
+        all_teams = data;
+        res.render("prog-contest/list.ejs", {
+          error: req.flash("error"),
+          teams: all_teams,
+        });
+      })
+      .catch(() => {
+        error = "Failed to fetch participants";
+        res.render("prog-contest/list.ejs", {
+          error: req.flash("error", error),
+          teams: all_teams,
+        });
+      });
+};
+
+module.exports = { getPC, postPC, getPCList };
