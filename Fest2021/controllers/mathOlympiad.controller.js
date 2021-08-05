@@ -180,19 +180,27 @@ const paymentDoneMO = (req, res) => {
 
     let error = "";
 
-    MathOlympiad.findOneAndUpdate(
-      { _id: id }, 
-      { name, contact, category, email, institution, tshirt })
-      .then((data) => {
-        error = "Participant updated successfully!";
-            req.flash("error", error);
+    MathOlympiad.findOne({ name: name, contact: contact }).then((participant) => {
+      if (participant) {
+        error = "Participant with this name and contact already exists!";
+        req.flash("error", error);
+        res.redirect("/MathOlympiad/editParticipant/"+id);
+      } else {
+        MathOlympiad.findOneAndUpdate(
+          { _id: id }, 
+          { name, contact, category, email, institution, tshirt })
+          .then((data) => {
+            error = "Participant updated successfully!";
+                req.flash("error", error);
+                res.redirect("/MathOlympiad/list");
+          })
+          .catch((e) => {
+            console.log(e);
+            error = "Failed to update participant details";
             res.redirect("/MathOlympiad/list");
-      })
-      .catch((e) => {
-        console.log(e);
-        error = "Failed to update participant details";
-        res.redirect("/MathOlympiad/list");
-      });
+          });
+      }
+    })
   };
   
 
