@@ -15,8 +15,9 @@
             <br />
         <% let success= 'Team deleted successfully!'%> 
         <% let success2= 'Team has been selected succesfully!'%> 
+        <% let success3= 'Payment completed succesfully!'%>
         <% if (error.length>0) {if
-        (error==success||success2){%>
+        (error==success||success2||success3){%>
         <div class="alert alert-success"><%=error%></div>
         <%}else{%>
         <div class="alert alert-danger"><%=error%></div>
