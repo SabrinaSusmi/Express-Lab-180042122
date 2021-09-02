@@ -63,7 +63,7 @@ const postMO = (req, res) => {
             from: "sabrinaislam22@iut-dhaka.edu",
             to: email,
             subject: "Math Olympiad Registration Successful!",
-            text: `Congratulations!!,
+            text: `Congratulations ${name}!,
               You have successfully registered to IUT ICT Fest Math Olympiad! Your confirmation code is ${confCode}`,
           };
 
@@ -214,10 +214,6 @@ const paymentDoneMO = (req, res) => {
 
     MathOlympiad.findOne({ name: name, contact: contact }).then((participant) => {
       if (participant) {
-        error = "Participant with this name and contact already exists!";
-        req.flash("error", error);
-        res.redirect("/MathOlympiad/editParticipant/"+id);
-      } else {
         MathOlympiad.findOneAndUpdate(
           { _id: id }, 
           { name, contact, category, email, institution, tshirt })
@@ -231,6 +227,7 @@ const paymentDoneMO = (req, res) => {
             error = "Failed to update participant details";
             res.redirect("/MathOlympiad/list");
           });
+        
       }
     })
   };

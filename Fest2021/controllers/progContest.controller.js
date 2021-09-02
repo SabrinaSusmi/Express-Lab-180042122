@@ -1,3 +1,34 @@
+require("dotenv").config();
+
+const crypto = require('crypto')
+const nodemailer = require('nodemailer')
+
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASSWORD
+  }
+});
+
+const mailSend = (memName, email, confCode) => {
+  let mailOptions = {
+    from: "sabrinaislam22@iut-dhaka.edu",
+    to: email,
+    subject: "Math Olympiad Registration Successful!",
+    text: `Congratulations ${memName}!,
+      You have successfully registered to IUT ICT Fest Programming Contest! Your confirmation code is ${confCode}`,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
+}
+
 const progContest = require("../models/progContest.model");
 
 const getPC = (req, res) => {
@@ -32,6 +63,7 @@ const postPC = (req, res) => {
   const paid = 0;
   const selected = false;
   let error = "";
+  const confCode = crypto.randomBytes(20).toString("hex");
 
   progContest.findOne({ teamname: teamname, institute: institute }).then(
     (team) => {
@@ -61,12 +93,20 @@ const postPC = (req, res) => {
             mem2shirt,
             total,
             paid,
-            selected
+            selected,
+            confCode
         });
         team
           .save()
           .then(() => {
             error = "Team has been registered successfully!";
+
+            mailSend(coachname,coachmail,confCode);
+            mailSend(leadername, leadermail, confCode);
+            mailSend(mem1name, mem1mail,confCode);
+            mailSend(mem2name, mem2mail, confCode);
+
+
             req.flash("error", error);
             res.redirect("/ProgContest/register");
           })
