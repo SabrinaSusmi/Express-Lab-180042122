@@ -37,6 +37,11 @@ const mathOlympiadSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  confCode: {
+    type: String,
+    required: true,
+    unique : true,
+  },
   date:{
       type:Date,
       default:Date.now
