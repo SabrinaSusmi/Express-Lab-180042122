@@ -1,5 +1,18 @@
-  
+require("dotenv").config();
+
+const crypto = require('crypto')
+const nodemailer = require('nodemailer')
+
+
 const MathOlympiad = require("../models/MathOlympiad.model");
+
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASSWORD
+  }
+});
 
 const getMO = (req, res)=> {
     res.render("math-olympiad/register.ejs", { error: req.flash("error") });
@@ -20,6 +33,7 @@ const postMO = (req, res) => {
     const paid = 0;
     const selected = false;
     let error = "";
+    const confCode = crypto.randomBytes(20).toString('hex');
   
     MathOlympiad.findOne({ name: name, contact: contact }).then((participant) => {
       if (participant) {
