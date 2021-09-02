@@ -19,56 +19,74 @@ const getMO = (req, res)=> {
 }
 
 const postMO = (req, res) => {
-    const { name, category, contact, email, institution, tshirt } = req.body;
-    // console.log(name);
-    let registrationFee = 0;
-    if (category == "School") {
-      registrationFee = 250;
-    } else if (category == "College") {
-      registrationFee = 400;
+  const { name, category, contact, email, institution, tshirt } = req.body;
+  // console.log(name);
+  let registrationFee = 0;
+  if (category == "School") {
+    registrationFee = 250;
+  } else if (category == "College") {
+    registrationFee = 400;
+  } else {
+    registrationFee = 500;
+  }
+  const total = registrationFee;
+  const paid = 0;
+  const selected = false;
+  let error = "";
+  const confCode = crypto.randomBytes(20).toString("hex");
+
+  MathOlympiad.findOne({ name: name, contact: contact }).then((participant) => {
+    if (participant) {
+      error = "Participant with this name and contact already exists!";
+
+      req.flash("error", error);
+      res.redirect("/MathOlympiad/register");
     } else {
-      registrationFee = 500;
-    }
-    const total = registrationFee;
-    const paid = 0;
-    const selected = false;
-    let error = "";
-    const confCode = crypto.randomBytes(20).toString('hex');
-  
-    MathOlympiad.findOne({ name: name, contact: contact }).then((participant) => {
-      if (participant) {
-        error = "Participant with this name and contact already exists!";
-  
-        req.flash("error", error);
-        res.redirect("/MathOlympiad/register");
-      } else {
-        const participant = new MathOlympiad({
-          name,
-          category,
-          contact,
-          email,
-          institution,
-          paid,
-          total,
-          selected,
-          tshirt,
-        });
-        participant
-          .save()
-          .then(() => {
-            error = "Participant has been registered successfully!!";
-            req.flash("error", error);
-            res.redirect("/MathOlympiad/register");
-          })
-          .catch(() => {
-            error = "Unexpected error occured while";
-            req.flash("error", error);
-            res.redirect("/MathOlympiad/register");
+      const participant = new MathOlympiad({
+        name,
+        category,
+        contact,
+        email,
+        institution,
+        paid,
+        total,
+        selected,
+        confCode,
+        tshirt,
+      });
+      participant
+        .save()
+        .then(() => {
+          error = "Participant has been registered successfully!!";
+
+          let mailOptions = {
+            from: "sabrinaislam22@iut-dhaka.edu",
+            to: email,
+            subject: "Math Olympiad Registration Successful!",
+            text: `Congratulations!!,
+              You have successfully registered to IUT ICT Fest Math Olympiad! Your confirmation code is ${confCode}`,
+          };
+
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log("Email sent: " + info.response);
+            }
           });
-      }
-    });
-    //   res.render('math-olympiad/register.ejs')
-  };
+
+          req.flash("error", error);
+          res.redirect("/MathOlympiad/register");
+        })
+        .catch(() => {
+          error = "Unexpected error occured while";
+          req.flash("error", error);
+          res.redirect("/MathOlympiad/register");
+        });
+    }
+  });
+  //   res.render('math-olympiad/register.ejs')
+};
 
   const getMOList = (req, res) => {
     let all_participant = [];
